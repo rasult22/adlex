@@ -6,18 +6,18 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'roboto-400': ['Roboto_400Regular'],
-        'roboto-500': ['Roboto_500Medium'],
-        'roboto-600': ['Roboto_600SemiBold'],
-        'roboto-700': ['Roboto_700Bold'],
-        'roboto-800': ['Roboto_800ExtraBold'],
-        'roboto-900': ['Roboto_900Black'],
-        'roboto-400-i': ['Roboto_400Regular_Italic'],
-        'roboto-500-i': ['Roboto_500Medium_Italic'],
-        'roboto-600-i': ['Roboto_600SemiBold_Italic'],
-        'roboto-700-i': ['Roboto_700Bold_Italic'],
-        'roboto-800-i': ['Roboto_800ExtraBold_Italic'],
-        'roboto-900-i': ['Roboto_900Black_Italic'],
+        'inter-400': ['Inter_400Regular'],
+        'inter-500': ['Inter_500Medium'],
+        'inter-600': ['Inter_600SemiBold'],
+        'inter-700': ['Inter_700Bold'],
+        'inter-800': ['Inter_800ExtraBold'],
+        'inter-900': ['Inter_900Black'],
+        'inter-400-i': ['Inter_400Regular_Italic'],
+        'inter-500-i': ['Inter_500Medium_Italic'],
+        'inter-600-i': ['Inter_600SemiBold_Italic'],
+        'inter-700-i': ['Inter_700Bold_Italic'],
+        'inter-800-i': ['Inter_800ExtraBold_Italic'],
+        'inter-900-i': ['Inter_900Black_Italic'],
       },
       boxShadow: {
         'intro-circle': '0px 0px 250px 0px #753EFF;'
