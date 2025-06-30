@@ -53,12 +53,12 @@ function Intro() {
 
   useEffect(() => {
      opacity.value = withRepeat(
-      withTiming(getRandomOpacity(), { duration: 4500, easing: Easing.linear }),
+      withTiming(getRandomOpacity(), { duration: 1500, easing: Easing.linear }),
       -1, // infinite repeats
       true // reverse (goes back and forth)
     );
      opacity2.value = withRepeat(
-      withTiming(getRandomOpacity(), { duration: 2400, easing: Easing.linear }),
+      withTiming(getRandomOpacity(), { duration: 1400, easing: Easing.linear }),
       -1, // infinite repeats
       true // reverse (goes back and forth)
     );
@@ -73,7 +73,7 @@ function Intro() {
       opacity: opacity2.value
     }
   })
-  return <Animated.View entering={FadeInLeft.duration(400)} className="flex-1 items-center justify-center bg-black">
+  return <Animated.View entering={FadeInLeft.duration(400)} className="flex-1 items-center justify-center bg-black overflow-hidden">
     <Animated.View style={[stylez]} className="absolute w-[526px] h-[526px] rounded-full bg-black shadow-intro-circle">
     </Animated.View>
     <Animated.View style={[stylez2]} className="absolute w-[434px] h-[434px] rounded-full bg-black shadow-intro-circle">
