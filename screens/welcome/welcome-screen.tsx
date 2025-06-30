@@ -1,6 +1,7 @@
 import AppButton from "@/components/button/app-button";
 import AIStarIcon from "@/icons/ai-star";
 import Logo from "@/icons/logo";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Animated, { Easing, FadeInDown, FadeInLeft, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
@@ -48,6 +49,7 @@ const getRandomOpacity = () => {
   return Math.random() * (max - min) + min
 }
 function Intro() {
+  const router = useRouter()
   const opacity = useSharedValue(1);
   const opacity2 = useSharedValue(1);
 
@@ -91,7 +93,7 @@ function Intro() {
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 4).stiffness(_stiffness).damping(_damping)} className="flex-row w-full items-center gap-[10px] mt-[20px] px-[10%]">
       <AppButton title="Start" onPress={() => {
-
+        router.navigate('/chat')
       }} />
     </Animated.View>
   </Animated.View>
