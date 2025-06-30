@@ -73,7 +73,7 @@ function Intro() {
       opacity: opacity2.value
     }
   })
-  return <Animated.View entering={FadeInLeft.duration(400)} className="flex-1 items-center justify-center bg-black overflow-hidden">
+  return <Animated.View entering={FadeInLeft.duration(400)} className="flex-1 items-center w-full justify-center bg-black overflow-hidden">
     <Animated.View style={[stylez]} className="absolute w-[526px] h-[526px] rounded-full bg-black shadow-intro-circle">
     </Animated.View>
     <Animated.View style={[stylez2]} className="absolute w-[434px] h-[434px] rounded-full bg-black shadow-intro-circle">
