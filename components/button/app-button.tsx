@@ -23,7 +23,7 @@ function AppButton({onPress, title}: {
       opacity.value = withTiming(1, { duration: 150 });
     }, 50)
   }}>
-    <Text className="text-[#1F1F1F] text-[16px] font-normal text-center">{title}</Text>
+    <Text className="text-[#1F1F1F] text-[16px] font-roboto-400 text-center">{title}</Text>
   </AnimatedPressable>
 }
 

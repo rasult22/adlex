@@ -25,16 +25,16 @@ function Welcome({onNext}: {onNext: () => void}) {
   return <Animated.View className="flex-1 items-center justify-center bg-black" style={StyleSheet.absoluteFillObject}>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px]">
       <Logo />
-      <Text className="text-white text-[24px] font-semibold text-center">AdlexAI</Text>
+      <Text className="text-white text-[24px] font-roboto-600 text-center">AdlexAI</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 2).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px] mt-[20px]">
-      <Text className="text-white text-[24px] font-semibold text-center">Welcome to Adlex AI</Text>
+      <Text className="text-white text-[24px] font-roboto-600 text-center">Welcome to Adlex AI</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 3).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px] mt-[20px] px-[20%]">
-      <Text className="text-white text-[16px] font-semibold text-center leading-[22px]">AI-powered. Hassle-free. Always by your side.</Text>
+      <Text className="text-white text-[16px] font-roboto-600 text-center leading-[22px]">AI-powered. Hassle-free. Always by your side.</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 4).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px] mt-[20px] px-[10%]">
-      <Text className="text-[#FFFFFFB8] text-[16px] font-normal text-center leading-[24px]">Your personal AI guide assisting on every step of the process</Text>
+      <Text className="text-[#FFFFFFB8] text-[16px] font-roboto-400 text-center leading-[24px]">Your personal AI guide assisting on every step of the process</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 5).stiffness(_stiffness).damping(_damping)} className="flex-row w-full items-center gap-[10px] mt-[20px] px-[10%]">
       <AppButton title="Next" onPress={onNext} />
@@ -82,14 +82,14 @@ function Intro() {
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px]">
       <Logo />
-      <Text className="text-white text-[24px] font-semibold text-center">AdlexAI</Text>
+      <Text className="text-white text-[24px] font-roboto-600 text-center">AdlexAI</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 2).stiffness(_stiffness).damping(_damping)} className="flex-row items-center mt-[20px] gap-[10px]">
       <AIStarIcon />
-      <Text className="text-white text-[24px] font-semibold text-center">AI-personalisation</Text>
+      <Text className="text-white text-[24px] font-roboto-600 text-center">AI-personalisation</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 3).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px] mt-[20px] px-[10%]">
-      <Text className="text-[#FFFFFFB8] text-[16px] font-normal text-center leading-[24px]">Personalized guidance begins now — we’ll handle the rest</Text>
+      <Text className="text-[#FFFFFFB8] text-[16px] font-roboto-400 text-center leading-[24px]">Personalized guidance begins now — we’ll handle the rest</Text>
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 4).stiffness(_stiffness).damping(_damping)} className="flex-row w-full items-center gap-[10px] mt-[20px] px-[10%]">
       <AppButton title="Start" onPress={() => {
