@@ -40,7 +40,7 @@ function MessageUser({ message }: { message: Message }) {
 }
 function MessageAssistant({ message }: { message: Message }) {
   return (
-    <Animated.View className='self-start py-3'>
+    <Animated.View className='self-start py-3 w-full'>
       <Markdown style={{
         body: {
           padding: 0,
