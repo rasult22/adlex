@@ -76,9 +76,9 @@ function Intro() {
     }
   })
   return <Animated.View entering={FadeInLeft.duration(400)} className="flex-1 items-center w-full justify-center bg-black overflow-hidden">
-    <Animated.View style={[stylez]} className="absolute w-[526px] h-[526px] rounded-full bg-black shadow-intro-circle">
+    <Animated.View style={[stylez]} className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] w-[526px] h-[526px] rounded-full bg-black shadow-intro-circle">
     </Animated.View>
-    <Animated.View style={[stylez2]} className="absolute w-[434px] h-[434px] rounded-full bg-black shadow-intro-circle">
+    <Animated.View style={[stylez2]} className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] w-[434px] h-[434px] rounded-full bg-black shadow-intro-circle">
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay).stiffness(_stiffness).damping(_damping)} className="flex-row items-center gap-[10px]">
       <Logo />

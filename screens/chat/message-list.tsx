@@ -1,9 +1,15 @@
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Text } from 'react-native';
 import Markdown from 'react-native-markdown-display';
+import Animated, { FadeIn, LinearTransition } from 'react-native-reanimated';
+const _delay = 400
+const _stiffness = 40
+const _damping = 80
+const _layout = LinearTransition.damping(40)
 
 export default function MessageList({ messages }: { messages: Message[] }) {
   return (
     <FlatList
+      inverted
       data={messages}
       keyExtractor={(item) => item.id}
       contentContainerStyle={{
@@ -15,21 +21,26 @@ export default function MessageList({ messages }: { messages: Message[] }) {
       style={{
         width: '100%'
       }}
-      renderItem={({ item }) => item.role === 'user' ? <MessageUser key={'user-message-' + item.id} message={item} /> : <MessageAssistant key={'assistant-message-' + item.id} message={item} />}
+      renderItem={({ item }) => {
+        return <>
+          {item.role === 'assistant' && <MessageAssistant message={item} />}
+          {item.role === 'user' && <MessageUser message={item} />}
+        </>
+      }}
     />
   )
 }
 
 function MessageUser({ message }: { message: Message }) {
   return (
-    <View className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
+    <Animated.View entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
       <Text className='text-white text-[15px] font-inter-400 leading-[22px]'>{message.content}</Text>
-    </View>
+    </Animated.View>
   )
 }
 function MessageAssistant({ message }: { message: Message }) {
   return (
-    <View className='self-start py-3'>
+    <Animated.View className='self-start py-3'>
       <Markdown style={{
         body: {
           padding: 0,
@@ -76,12 +87,19 @@ function MessageAssistant({ message }: { message: Message }) {
         image: {
           position: 'static'
         },
+        hr: {
+          backgroundColor: '#ffffff40'
+        },
         table: {
           borderColor: '#753EFF3D',
           fontSize: 12
         },
         thead: {
           padding: 2,
+          fontFamily: 'Inter_600SemiBold'
+        },
+        th: {
+          fontFamily: 'Inter_600SemiBold'
         },
         tr: {
           padding: 2,
@@ -92,7 +110,7 @@ function MessageAssistant({ message }: { message: Message }) {
       }}>
         {message.content}
       </Markdown>
-    </View>
+    </Animated.View>
   )
 }
 
