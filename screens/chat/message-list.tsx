@@ -4,7 +4,7 @@ import Animated, { FadeIn, LinearTransition } from 'react-native-reanimated';
 const _delay = 400
 const _stiffness = 40
 const _damping = 80
-const _layout = LinearTransition.damping(40)
+const _layout = LinearTransition.springify().damping(40)
 
 export default function MessageList({ messages }: { messages: Message[] }) {
   return (
@@ -33,14 +33,14 @@ export default function MessageList({ messages }: { messages: Message[] }) {
 
 function MessageUser({ message }: { message: Message }) {
   return (
-    <Animated.View entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
+    <Animated.View layout={_layout} entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
       <Text className='text-white text-[15px] font-inter-400 leading-[22px]'>{message.content}</Text>
     </Animated.View>
   )
 }
 function MessageAssistant({ message }: { message: Message }) {
   return (
-    <Animated.View className='self-start py-3 w-full'>
+    <Animated.View layout={_layout} className='self-start py-3 w-full'>
       <Markdown style={{
         body: {
           padding: 0,
