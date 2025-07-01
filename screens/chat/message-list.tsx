@@ -1,4 +1,5 @@
-import { FlatList, Text } from 'react-native';
+import ChatButton from '@/components/button/chat-button';
+import { FlatList, Text, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Animated, { FadeIn, LinearTransition } from 'react-native-reanimated';
 const _delay = 400
@@ -110,6 +111,44 @@ function MessageAssistant({ message }: { message: Message }) {
       }}>
         {message.content}
       </Markdown>
+      <View className="mt-2">
+        <Text className='text-[#FFFFFFA3] text-[14px] font-inter-700'>
+          Действия:
+        </Text>
+        <View className='flex-row flex-wrap gap-2 mt-2'>
+          <ChatButton title="Apply" onPress={() => {
+
+          }} />
+          <ChatButton title="Go to the application form" onPress={() => {
+
+          }} />
+          <ChatButton title="Choose the appropriate Free Zone" onPress={() => {
+
+          }} />
+        </View>
+      </View>
+      <View className="mt-2">
+        <Text className='text-[#FFFFFFA3] text-[14px] font-inter-700'>
+          Информация:
+        </Text>
+        <View className='flex-row flex-wrap gap-2 mt-2'>
+          <ChatButton title="How do I choose my business activity?" onPress={() => {
+
+          }} />
+          <ChatButton title="What do I need from me to open a company?" onPress={() => {
+
+          }} />
+          <ChatButton title="Taxation of my cashflow" onPress={() => {
+
+          }} />
+          <ChatButton title="Why IFZA?" onPress={() => {
+
+          }} />
+          <ChatButton title="Налоговый режим" onPress={() => {
+
+          }} />
+        </View>
+      </View>
     </Animated.View>
   )
 }
