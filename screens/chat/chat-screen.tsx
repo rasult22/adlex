@@ -1,13 +1,10 @@
 import {
-  default as AnimatedPressable,
-  default as AppAnimatedPressable,
+  default as AnimatedPressable
 } from "@/components/button/animated-pressable";
-import AddIcon from "@/icons/add";
-import MenuIcon from "@/icons/menu";
 import PlusIcon from "@/icons/plus";
 import SendIcon from "@/icons/send";
 import { useEffect, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import MessageList, { Message } from "./message-list";
 const md = `# H1 Heading
@@ -76,7 +73,6 @@ export default function ChatScreen() {
         .delay(_delay)}
       className="flex-1 bg-black"
     >
-      <Header />
       <View className="flex-1 items-center justify-center">
         {messages.length === 0 ? (
           <WelcomeMessage key={"welcome"} />
@@ -89,19 +85,6 @@ export default function ChatScreen() {
   );
 }
 
-function Header() {
-  return (
-    <View className="flex-row items-center justify-between p-4 bg-black">
-      <AppAnimatedPressable onPress={() => {}}>
-        <MenuIcon />
-      </AppAnimatedPressable>
-      <Text className="text-white text-lg font-bold" />
-      <AppAnimatedPressable onPress={() => {}}>
-        <AddIcon />
-      </AppAnimatedPressable>
-    </View>
-  );
-}
 
 function WelcomeMessage() {
   return (
