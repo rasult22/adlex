@@ -4,7 +4,7 @@ import Logo from "@/icons/logo";
 import MenuIcon from "@/icons/menu";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { Drawer } from "expo-router/drawer";
-import { Text, View } from "react-native";
+import { SectionList, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function ChatLayout() {
@@ -72,6 +72,7 @@ function HeaderRight() {
   );
 }
 
+import ApplicationStatusCard from "@/components/cards/application-status-card";
 import ApplicationIcon from "@/icons/application";
 import BooksIcon from "@/icons/books";
 import CloseIcon from "@/icons/close";
@@ -81,7 +82,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 function DrawerContent (props: DrawerContentComponentProps) {
   return (
-    <View className="py-3">
+    <View className="py-3 flex-1">
       <View className="flex-row items-center px-4 py-1">
         <Logo />
         <Text className="text-[20px] ml-2 text-white font-inter-600">AdlexAI</Text>
@@ -94,11 +95,17 @@ function DrawerContent (props: DrawerContentComponentProps) {
           <CloseIcon />
         </AppAnimatedPressable>
       </View>
-      <View className="px-[6px] mt-3">
+      <View className="px-[6px] flex-1 mt-3">
         <MenuItem icon={<AddIcon />} text="New chat" onPress={() => {
           props.navigation.navigate("/");
         }} />
         <HorizontalSeparator />
+        <View className="pt-1 pb-3">
+          <AppAnimatedPressable onPress={() => {
+          }}>
+            <ApplicationStatusCard />
+          </AppAnimatedPressable>
+        </View>
         <MenuItem icon={<ApplicationIcon />} text="Applications" onPress={() => {
           props.navigation.navigate("/");
         }} />
@@ -109,6 +116,11 @@ function DrawerContent (props: DrawerContentComponentProps) {
           props.navigation.navigate("/");
         }} />
         <HorizontalSeparator />
+        <ConversationHistory />
+        <HorizontalSeparator />
+        <View>
+          <Text>Profile</Text>
+        </View>
       </View>
     </View>
   );
@@ -131,4 +143,74 @@ function MenuItem({onPress, icon, text = 'Text' }: {
 
 function HorizontalSeparator() {
   return <View className="w-full h-[1px] bg-[#474747] my-2" />
+}
+
+function ConversationHistory() {
+  const history = [
+    {
+      title: 'Июнь 2025',
+      data: [
+        {
+          id: 'keidu2-kdeoedij-2kjsdfj-3423jk',
+          title: 'Company Types'
+        },
+        {
+          id: 'keidu2-kdeoedij-e32le23el2el3mjneedfk',
+          title: 'Choosing a Location'
+        },
+        {
+          id: 'keidu2-kdeoedij23klek2le3jk',
+          title: 'Application Requirements'
+        },
+      ]
+    },
+    {
+      title: 'Май 2025',
+      data: [
+        {
+          id: 'keidu2-kdeoedijol23pel2323jk',
+          title: 'Process and Timeline'
+        },
+        {
+          id: 'keidu2-kdeoedij-le23pl2pel3jk',
+          title: 'Ownership'
+        },
+        {
+          id: 'keidu2-kdeoedij-329e20ikoikokopk',
+          title: 'Documents'
+        },
+      ]
+    },
+    {
+      title: 'Апрель 2025',
+      data: [
+        {
+          id: 'keidu2-kdeoedij-2kj2031kei23jk',
+          title: 'Process and Timeline'
+        },
+        {
+          id: 'keidu2-kdeoedij-2kjsdfjleeorkwer23jk',
+          title: 'Ownership'
+        },
+        {
+          id: 'keidu2-kdeoedij-2kjsdfj-awda23jk',
+          title: 'Documents'
+        },
+      ]
+    },
+  ]
+  return <SectionList
+    keyExtractor={(item) => item.id}
+    sections={history}
+    renderItem={({item}) => (
+      <MenuItem text={item.title} onPress={() => {}} />
+    )}
+    contentContainerStyle={{
+      gap: 4,
+      flex: 1,
+    }}
+    renderSectionHeader={({section}) => (
+      <Text className="text-[#A3A3A3] text-[14px] font-inter-500 leading-[22px] px-3 pt-[12px] pb-[10px]">{section.title}</Text>
+    )}
+   />
 }
