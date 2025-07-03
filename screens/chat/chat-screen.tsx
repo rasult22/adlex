@@ -70,8 +70,7 @@ export default function ChatScreen() {
     <Animated.View
       entering={FadeIn.duration(400)
         .stiffness(_stiffness)
-        .damping(_damping)
-        .delay(_delay)}
+        .damping(_damping)}
       className="flex-1 bg-black"
     >
       <View className="flex-1 items-center justify-center">

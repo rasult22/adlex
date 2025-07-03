@@ -13,6 +13,9 @@ export default function ChatLayout() {
       <Drawer
         drawerContent={(props) => <DrawerContent {...props} />}
         screenOptions={{
+          sceneStyle: {
+            backgroundColor: 'transparent'
+          },
           drawerContentStyle: {
             backgroundColor: '#1F1F1F'
           },
@@ -29,7 +32,6 @@ export default function ChatLayout() {
           },
           headerStyle: {
             backgroundColor: "black",
-            // padding: 16,
             borderBottomWidth: 0,
           },
           headerLeft: () => <HeaderLeft />,
