@@ -4,7 +4,7 @@ import Logo from "@/icons/logo";
 import MenuIcon from "@/icons/menu";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { Drawer } from "expo-router/drawer";
-import { SectionList, Text, View } from "react-native";
+import { Platform, SectionList, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function ChatLayout() {
@@ -29,7 +29,7 @@ export default function ChatLayout() {
           },
           headerStyle: {
             backgroundColor: "black",
-            padding: 16,
+            // padding: 16,
             borderBottomWidth: 0,
           },
           headerLeft: () => <HeaderLeft />,
@@ -79,10 +79,15 @@ import CloseIcon from "@/icons/close";
 import FolderIcon from "@/icons/folder";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function DrawerContent (props: DrawerContentComponentProps) {
+  const {top, bottom} = useSafeAreaInsets()
   return (
-    <View className="py-3 flex-1">
+    <View className="flex-1" style={{
+      paddingTop: Platform.OS === 'web' ? 12 :  top,
+      paddingBottom: bottom
+    }}>
       <View className="flex-row items-center px-4 py-1">
         <Logo />
         <Text className="text-[20px] ml-2 text-white font-inter-600">AdlexAI</Text>

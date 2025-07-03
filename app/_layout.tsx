@@ -21,20 +21,19 @@ export default function RootLayout() {
   })
   return (
     <QueryClientProvider client={queryClient}>
-      <StatusBar style="auto" />
-      <Stack screenOptions={{
-        contentStyle: {
-          backgroundColor: '#000'
-        }
-      }}>
-        <Stack.Screen name="index" options={{
-          headerShown: false
-        }} />
-        <Stack.Screen name="chat" options={{
-          headerShown: false,
-        }} />
-      </Stack>
-      {/* <AppDrawer /> */}
+        <StatusBar style="auto" />
+        <Stack screenOptions={{
+          contentStyle: {
+            backgroundColor: '#000'
+          }
+        }}>
+          <Stack.Screen name="index" options={{
+            headerShown: false
+          }} />
+          <Stack.Screen name="chat" options={{
+            headerShown: false,
+          }} />
+        </Stack>
     </QueryClientProvider>
   );
 }

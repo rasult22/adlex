@@ -4,8 +4,9 @@ import {
 import PlusIcon from "@/icons/plus";
 import SendIcon from "@/icons/send";
 import { useEffect, useState } from "react";
-import { TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MessageList, { Message } from "./message-list";
 const md = `# H1 Heading
 ## H2 Heading
@@ -122,15 +123,20 @@ function WelcomeMessage() {
 
 function ChatInput() {
   const [message, setMessage] = useState("");
+  const {bottom} = useSafeAreaInsets()
   return (
-    <View className="bg-[#1F1F1F] gap-[20px] rounded-t-[20px] p-4">
-      <TextInput
-        value={message}
-        onChangeText={setMessage}
-        placeholder="Start typing your question"
-        placeholderTextColor="#FFFFFF7A"
-        className="text-white text-[16px] leading-[24px] focus:outline-none"
-      />
+    <View className="bg-[#1F1F1F] gap-[20px] rounded-t-[20px] p-4" style={{
+      paddingBottom: bottom
+    }}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <TextInput
+          value={message}
+          onChangeText={setMessage}
+          placeholder="Start typing your question"
+          placeholderTextColor="#FFFFFF7A"
+          className="text-white text-[16px] leading-[24px] focus:outline-none"
+        />
+      </KeyboardAvoidingView>
       <View className="flex-row justify-between">
         <AnimatedPressable onPress={() => {}}>
           <PlusIcon />

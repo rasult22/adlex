@@ -93,7 +93,7 @@ function Intro() {
     </Animated.View>
     <Animated.View entering={FadeInDown.duration(400).delay(_delay * 4).stiffness(_stiffness).damping(_damping)} className="flex-row w-full items-center gap-[10px] mt-[20px] px-[10%]">
       <AppButton title="Start" onPress={() => {
-        router.navigate('/chat')
+        router.replace('/chat')
       }} />
     </Animated.View>
   </Animated.View>
