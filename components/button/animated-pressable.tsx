@@ -1,3 +1,4 @@
+import * as Haptics from 'expo-haptics';
 import { ReactNode } from "react";
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
@@ -18,7 +19,10 @@ function AppAnimatedPressable({onPress, children, className, style, disabled = f
       opacity: disabled ? 0.7 : opacity.value,
     }
   })
-  return <AnimatedPressable disabled={disabled} className={className} style={[stylez, style]} onPress={onPress} onPressIn={() => {
+  return <AnimatedPressable disabled={disabled} className={className} style={[stylez, style]} onPress={() => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    onPress()
+  }} onPressIn={() => {
     scale.value = withSpring(0.95);
     opacity.value = withTiming(0.7, { duration: 150 });
   }} onPressOut={() => {

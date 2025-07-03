@@ -118,9 +118,7 @@ function DrawerContent (props: DrawerContentComponentProps) {
         <HorizontalSeparator />
         <ConversationHistory />
         <HorizontalSeparator />
-        <View>
-          <Text>Profile</Text>
-        </View>
+        <ProfileSection name="Alim Kenzhebekov" position="CEO"/>
       </View>
     </View>
   );
@@ -213,4 +211,20 @@ function ConversationHistory() {
       <Text className="text-[#A3A3A3] text-[14px] font-inter-500 leading-[22px] px-3 pt-[12px] pb-[10px]">{section.title}</Text>
     )}
    />
+}
+
+
+function ProfileSection({name, position}: {name: string, position?: string}) {
+  return <View className="py-2 px-3 flex-row gap-[10px] items-center">
+    <View className="bg-[#526ED3] py-[5px] px-[6px] rounded-full">
+      <Text className="text-white text-[14px] uppercase font-inter-600 leading-[22px]">
+        {name[0]}
+        {name.split(' ')[1] && name.split(' ')[1][0]}
+      </Text>
+    </View>
+    <View>
+      <Text className="text-[14px] font-inter-400 text-white leading-[22px]">{name}</Text>
+      <Text className="text-[12px] font-inter-400 text-[#A3A3A3] leading-[22px]">{position}</Text>
+    </View>
+  </View>
 }
