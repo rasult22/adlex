@@ -36,6 +36,11 @@ export default function SettingsScreen() {
           <Payment />
           <Settings />
           <Account />
+          <AppAnimatedPressable className="self-start" onPress={() => {}}>
+            <Text className="text-[#EA4335] p-3">
+              Log Out
+            </Text>
+          </AppAnimatedPressable>
         </View>
       </ScrollView>
     </Animated.View>
