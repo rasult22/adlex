@@ -1,4 +1,5 @@
 import AppAnimatedPressable from "@/components/button/animated-pressable";
+import BaseSwitch from "@/components/switch/base-switch";
 import AIStarIcon from "@/icons/ai-star";
 import ContactIcon from "@/icons/contact";
 import CreditCardIcon from "@/icons/credit-card";
@@ -12,7 +13,7 @@ import RightIcon from "@/icons/right";
 import RoleIcon from "@/icons/role";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 const _delay = 400;
@@ -26,11 +27,14 @@ export default function SettingsScreen() {
       className="flex-1 bg-black"
     >
       <Header />
-      <View className="p-4 gap-[24px]">
-        <ProfileCard />
-        <Personalization />
-        <Payment />
-      </View>
+      <ScrollView>
+        <View className="p-4 gap-[24px]">
+          <ProfileCard />
+          <Personalization />
+          <Payment />
+          <Settings />
+        </View>
+      </ScrollView>
     </Animated.View>
   );
 }
@@ -155,4 +159,26 @@ function Payment() {
       </View>
     </View>
   </View>
+}
+
+function Settings () {
+  return <View>
+      <Text className="text-white text-[14px] font-inter-400">Settings</Text>
+       <View className="bg-[#1F1F1F] rounded-[12px] mt-3">
+      <View className="py-2 px-3 flex-row items-center">
+        <PlusSubIcon />
+        <Text className="ml-3 text-white text-[15px] font-inter-400 leading-[18px]">Dark appearance</Text>
+        <View className="ml-auto flex-row items-center gap-2">
+          <BaseSwitch value={true} />
+        </View>
+      </View>
+      <View className="py-2 px-3 flex-row items-center">
+        <CreditCardIcon />
+        <Text className="ml-3 text-white text-[15px] font-inter-400 leading-[18px]">Notifications</Text>
+        <View className="ml-auto flex-row items-center gap-2">
+          <BaseSwitch value={false} />
+        </View>
+      </View>
+    </View>
+  </View> 
 }
