@@ -5,9 +5,11 @@ import ContactIcon from "@/icons/contact";
 import CreditCardIcon from "@/icons/credit-card";
 import DoubleCheckIcon from "@/icons/double-check";
 import DownIcon from "@/icons/down";
+import EmailIcon from "@/icons/email";
 import LanguageIcon from "@/icons/language";
 import LeftIcon from "@/icons/left";
 import MasterCardIcon from "@/icons/master-card";
+import PhoneIcon from "@/icons/phone";
 import PlusSubIcon from "@/icons/plus-sub";
 import RightIcon from "@/icons/right";
 import RoleIcon from "@/icons/role";
@@ -33,6 +35,7 @@ export default function SettingsScreen() {
           <Personalization />
           <Payment />
           <Settings />
+          <Account />
         </View>
       </ScrollView>
     </Animated.View>
@@ -153,10 +156,10 @@ function Payment() {
     </View>
     <View className="mt-2 ml-2 flex-row items-center gap-2">
       <Text className="text-[#8B8B8B] text-[12px] leading-[18px] font-inter-400">Next payment is May 13</Text>
-      <View className="flex-row items-center gap-1">
+      <AppAnimatedPressable onPress={() => {}} className="flex-row items-center gap-1">
         <Text className="text-[12px] font-inter-400 leading-[18px] text-[#9165FF]">Edit</Text>
         <RightIcon fill="#9165FF" size={18}/>
-      </View>
+      </AppAnimatedPressable>
     </View>
   </View>
 }
@@ -181,4 +184,27 @@ function Settings () {
       </View>
     </View>
   </View> 
+}
+function Account () {
+  return <View>
+    <View className="flex-row items-center justify-between">
+      <Text className="text-white text-[14px] font-inter-400">Account</Text>
+      <AppAnimatedPressable onPress={() => {}} className="flex-row items-center gap-1">
+        <Text className="text-[#9165FF] text-[14px] leading-[18px] font-inter-400">Edit</Text>
+        <RightIcon size={18} fill="#9165FF" />
+      </AppAnimatedPressable>
+    </View>
+    <View className="bg-[#1F1F1F] rounded-[12px] mt-3">
+      <View className="py-2 px-3 flex-row items-center">
+        <EmailIcon />
+        <Text className="ml-3 text-white text-[15px] font-inter-400 leading-[18px]">E-mail</Text>
+        <Text className="text-[15px] font-inter-400 leading-[18px] text-white opacity-[0.48] ml-auto">maxholding007@gmail.com</Text>
+      </View>
+      <View className="py-2 px-3 flex-row items-center">
+        <PhoneIcon />
+        <Text className="ml-3 text-white text-[15px] font-inter-400 leading-[18px]">Phone</Text>
+        <Text className="text-[15px] font-inter-400 leading-[18px] text-white opacity-[0.48] ml-auto">+7 (999) 999-99-99</Text>
+      </View>
+    </View>
+  </View>
 }
