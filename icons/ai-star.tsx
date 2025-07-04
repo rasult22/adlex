@@ -1,9 +1,10 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
-const AIStarIcon = () => (
+const AIStarIcon = ({size = 32}: {size?: number}) => (
   <Svg
-    width={32}
-    height={32}
+    viewBox="0 0 32 32"
+    width={size}
+    height={size}
     fill="none"
   >
     <Path
