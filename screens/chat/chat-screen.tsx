@@ -1,76 +1,38 @@
-import {
-  default as AnimatedPressable
+import AppAnimatedPressable, {
+  default as AnimatedPressable,
 } from "@/components/button/animated-pressable";
+import CloseIcon from "@/icons/close";
+import DownloadIcon from "@/icons/download";
 import PlusIcon from "@/icons/plus";
 import SendIcon from "@/icons/send";
-import { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
+import { useState } from "react";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MessageList, { Message } from "./message-list";
-const md = `# H1 Heading
-## H2 Heading
-
-### H3 Heading
-
-#### H4 Heading
-
-##### H5 Heading
-
-###### H6 Heading
-`;
+const md = `# Hello how can i help you?`;
 const _delay = 400;
 const _stiffness = 40;
 const _damping = 80;
 
 export default function ChatScreen() {
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  useEffect(() => {
-      setMessages((m) => [
-        ...m,
-        {
-          id: "1342234234",
-          role: "user",
-          content: "Hello, world!",
-        },
-      ].reverse());
-  }, []);
-  useEffect(() => {
-    // Create an initial message
-    const messageId = "md-message";
-    setMessages((m) => [
-      ...m,
-      {
-        id: messageId,
-        role: 'assistant',
-        content: ""
-      }
-    ].reverse());
-    
-    // Update the same message by appending one character at a time
-    Array.from({length: md.length}).forEach((_, index) => {
-      setTimeout(() => {
-        setMessages((m) => {
-          return m.map(msg => {
-            if (msg.id === messageId) {
-              return {
-                ...msg,
-                content: md.substring(0, index + 1)
-              };
-            }
-            return msg;
-          });
-        });
-      }, index * 50); // Add a delay between updates for a typing effect
-    });
-  }, []);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: "1",
+      role: "assistant",
+      content: md,
+    },
+  ]);
 
   return (
     <Animated.View
-      entering={FadeIn.duration(400)
-        .stiffness(_stiffness)
-        .damping(_damping)}
+      entering={FadeIn.duration(400).stiffness(_stiffness).damping(_damping)}
       className="flex-1 bg-black"
     >
       <View className="flex-1 items-center justify-center">
@@ -84,7 +46,6 @@ export default function ChatScreen() {
     </Animated.View>
   );
 }
-
 
 function WelcomeMessage() {
   return (
@@ -122,28 +83,78 @@ function WelcomeMessage() {
 
 function ChatInput() {
   const [message, setMessage] = useState("");
-  const {bottom} = useSafeAreaInsets()
+  const { bottom } = useSafeAreaInsets();
   return (
-    <View className="bg-[#1F1F1F] gap-[20px] rounded-t-[20px] p-4" style={{
-      paddingBottom: bottom
-    }}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <TextInput
-          value={message}
-          onChangeText={setMessage}
-          placeholder="Start typing your question"
-          placeholderTextColor="#FFFFFF7A"
-          className="text-white text-[16px] leading-[24px] focus:outline-none"
-        />
-      </KeyboardAvoidingView>
-      <View className="flex-row justify-between">
-        <AnimatedPressable onPress={() => {}}>
-          <PlusIcon />
-        </AnimatedPressable>
-        <AnimatedPressable disabled={message === ""} onPress={() => {}}>
-          <SendIcon />
-        </AnimatedPressable>
+    <View
+      className="bg-[#1F1F1F] gap-[20px] rounded-t-[20px] p-2"
+      style={{
+        paddingBottom: bottom,
+      }}
+    >
+      <View className="gap-3 bg-[#000] rounded-[22px] p-3">
+        <PDFView type="upload" date="12.05.2025" filename="Скан_паспорта.pdf" />
+        <PDFView type="upload" date="12.05.2025" filename="Скан_паспорта_2.pdf" />
       </View>
+      <View className="px-2 pb-2">
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
+          <TextInput
+            multiline
+            value={message}
+            onChangeText={setMessage}
+            placeholder="Start typing your question"
+            placeholderTextColor="#FFFFFF7A"
+            className="text-white text-[16px] font-inter-400 leading-[24px] focus:outline-none"
+          />
+        </KeyboardAvoidingView>
+        <View className="flex-row justify-between mt-6 pb-2">
+          <AnimatedPressable onPress={() => {}}>
+            <PlusIcon />
+          </AnimatedPressable>
+          <AnimatedPressable disabled={message === ""} onPress={() => {}}>
+            <SendIcon />
+          </AnimatedPressable>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function PDFView({
+  type,
+  filename,
+  date,
+}: {
+  type: "upload" | "download";
+  filename: string;
+  date: string;
+}) {
+  return (
+    <View className="flex-row items-center">
+      <View className="justify-center bg-[#EA4335] p-3 rounded-[16px] w-[52px] h-[52px]">
+        <Text className="text-white text-[14px] font-inter-500 leading-[18px]">
+          PDF
+        </Text>
+      </View>
+      <View className="ml-[10px]">
+        <Text className="text-[16px] text-white font-inter-400 leading-[24px]">
+          {filename}
+        </Text>
+        <Text className="text-[14px] text-[#A3A3A3] font-inter-400 leading-[24px]">
+          {date}
+        </Text>
+      </View>
+      {type === "upload" && (
+        <AppAnimatedPressable onPress={() => {}} className="ml-auto">
+          <CloseIcon size={24} />
+        </AppAnimatedPressable>
+      )}
+      {type === "download" && (
+        <AppAnimatedPressable onPress={() => {}} className="ml-auto">
+          <DownloadIcon size={24} />
+        </AppAnimatedPressable>
+      )}
     </View>
   );
 }

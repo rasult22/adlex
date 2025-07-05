@@ -1,9 +1,10 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
-const CloseIcon = () => (
+const CloseIcon = ({size = 20}: {size?: number}) => (
   <Svg
-    width={20}
-    height={20}
+    viewBox="0 0 20 20"
+    width={size}
+    height={size}
     fill="none"
   >
     <Path
