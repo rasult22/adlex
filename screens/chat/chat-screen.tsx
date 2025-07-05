@@ -1,17 +1,15 @@
-import AppAnimatedPressable, {
+import {
   default as AnimatedPressable,
 } from "@/components/button/animated-pressable";
-import CloseIcon from "@/icons/close";
-import DownloadIcon from "@/icons/download";
+import PDFView from "@/components/chat/pdf-view";
 import PlusIcon from "@/icons/plus";
 import SendIcon from "@/icons/send";
 import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
-  Text,
   TextInput,
-  View,
+  View
 } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -91,11 +89,11 @@ function ChatInput() {
         paddingBottom: bottom,
       }}
     >
-      <View className="gap-3 bg-[#000] rounded-[22px] p-3">
+      <View className="hidden gap-3 bg-[#000] rounded-[22px] p-3">
         <PDFView type="upload" date="12.05.2025" filename="Скан_паспорта.pdf" />
         <PDFView type="upload" date="12.05.2025" filename="Скан_паспорта_2.pdf" />
       </View>
-      <View className="px-2 pb-2">
+      <View className="px-2 pb-2 pt-2">
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
@@ -121,40 +119,4 @@ function ChatInput() {
   );
 }
 
-function PDFView({
-  type,
-  filename,
-  date,
-}: {
-  type: "upload" | "download";
-  filename: string;
-  date: string;
-}) {
-  return (
-    <View className="flex-row items-center">
-      <View className="justify-center bg-[#EA4335] p-3 rounded-[16px] w-[52px] h-[52px]">
-        <Text className="text-white text-[14px] font-inter-500 leading-[18px]">
-          PDF
-        </Text>
-      </View>
-      <View className="ml-[10px]">
-        <Text className="text-[16px] text-white font-inter-400 leading-[24px]">
-          {filename}
-        </Text>
-        <Text className="text-[14px] text-[#A3A3A3] font-inter-400 leading-[24px]">
-          {date}
-        </Text>
-      </View>
-      {type === "upload" && (
-        <AppAnimatedPressable onPress={() => {}} className="ml-auto">
-          <CloseIcon size={24} />
-        </AppAnimatedPressable>
-      )}
-      {type === "download" && (
-        <AppAnimatedPressable onPress={() => {}} className="ml-auto">
-          <DownloadIcon size={24} />
-        </AppAnimatedPressable>
-      )}
-    </View>
-  );
-}
+
