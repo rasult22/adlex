@@ -50,6 +50,12 @@ export default function ChatLayout() {
             headerShown: false,
           }}
         />
+        <Drawer.Screen
+          name="application"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   );
@@ -131,7 +137,9 @@ function DrawerContent(props: DrawerContentComponentProps) {
         />
         <HorizontalSeparator />
         <View className="pt-1 pb-3">
-          <AppAnimatedPressable onPress={() => {}}>
+          <AppAnimatedPressable onPress={() => {
+            props.navigation.navigate("application");
+          }}>
             <ApplicationStatusCard />
           </AppAnimatedPressable>
         </View>
@@ -139,7 +147,7 @@ function DrawerContent(props: DrawerContentComponentProps) {
           icon={<ApplicationIcon />}
           text="Applications"
           onPress={() => {
-            props.navigation.navigate("/");
+            props.navigation.navigate("application");
           }}
         />
         <MenuItem

@@ -17,14 +17,18 @@ import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const _delay = 400;
 const _stiffness = 40;
 const _damping = 80;
 
 export default function SettingsScreen() {
+  const { top } = useSafeAreaInsets()
+
   return (
     <Animated.View
+      style={{ paddingTop: top }}
       entering={FadeIn.duration(400).stiffness(_stiffness).damping(_damping)}
       className="flex-1 bg-black"
     >
