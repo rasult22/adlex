@@ -95,6 +95,7 @@ import CloseIcon from "@/icons/close";
 import FolderIcon from "@/icons/folder";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { LinearGradient } from "expo-linear-gradient";
+import { getUniqueID } from "react-native-markdown-display";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function DrawerContent(props: DrawerContentComponentProps) {
@@ -209,15 +210,15 @@ function ConversationHistory() {
       title: "Июнь 2025",
       data: [
         {
-          id: "keidu2-kdeoedij-2kjsdfj-3423jk",
+          id: getUniqueID(),
           title: "Company Types",
         },
         {
-          id: "keidu2-kdeoedij-e32le23el2el3mjneedfk",
+          id: getUniqueID(),
           title: "Choosing a Location",
         },
         {
-          id: "keidu2-kdeoedij23klek2le3jk",
+          id: getUniqueID(),
           title: "Application Requirements",
         },
       ],
@@ -226,15 +227,15 @@ function ConversationHistory() {
       title: "Май 2025",
       data: [
         {
-          id: "keidu2-kdeoedijol23pel2323jk",
+          id: getUniqueID(),
           title: "Process and Timeline",
         },
         {
-          id: "keidu2-kdeoedij-le23pl2pel3jk",
+          id: getUniqueID(),
           title: "Ownership",
         },
         {
-          id: "keidu2-kdeoedij-329e20ikoikokopk",
+          id: getUniqueID(),
           title: "Documents",
         },
       ],
@@ -243,15 +244,15 @@ function ConversationHistory() {
       title: "Апрель 2025",
       data: [
         {
-          id: "keidu2-kdeoedij-2kj2031kei23jk",
+          id: getUniqueID(),
           title: "Process and Timeline",
         },
         {
-          id: "keidu2-kdeoedij-2kjsdfjleeorkwer23jk",
+          id: getUniqueID(),
           title: "Ownership",
         },
         {
-          id: "keidu2-kdeoedij-2kjsdfj-awda23jk",
+          id: getUniqueID(),
           title: "Documents",
         },
       ],

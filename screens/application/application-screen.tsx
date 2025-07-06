@@ -3,6 +3,7 @@ import ApplicationStatusCard from "@/components/cards/application-status-card";
 import LeftIcon from "@/icons/left";
 import { useNavigation } from "@react-navigation/native";
 import { SectionList, Text, View } from "react-native";
+import { getUniqueID } from "react-native-markdown-display";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -16,19 +17,19 @@ export default function ApplicationScreen() {
       title: 'May 2025',
       data: [
         {
-          id: 'keidu2-kdeoedij-2kjsdfjleeorkwer23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'in-progress'
         },
         {
-          id: 'keidu2-kdeoedij-2kjsdfj-awda23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'success'
         },
         {
-          id: 'keidu2-kdeoedij-2kjsdfjleeorkwer23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'rejected'
@@ -39,19 +40,19 @@ export default function ApplicationScreen() {
       title: 'Feburary 2025',
       data: [
         {
-          id: 'keidu2-kdeosadaedij-2kjsdfjleeorkwer23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'in-progress'
         },
         {
-          id: 'keidu2-kdeoeasdasdij-2kjsdfj-awda23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'success'
         },
         {
-          id: 'keidu2-kdeoedasdawawij-2kjsdfjleeorkwer23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'rejected'
@@ -62,19 +63,19 @@ export default function ApplicationScreen() {
       title: 'March 2025',
       data: [
         {
-          id: 'keidu2-kdeoedij-2kjsdfjleeorkwer23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'in-progress'
         },
         {
-          id: 'keidu2-kdeoedij-2kjsdfj-awda23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'success'
         },
         {
-          id: 'keidu2-kdeoedij-2kjsdfjleeorkwer23jk',
+          id: getUniqueID(),
           title: 'IFZA application',
           date: '18.05.2025',
           status: 'rejected'

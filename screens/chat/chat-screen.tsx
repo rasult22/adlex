@@ -1,32 +1,40 @@
+import { getSessionData, runSSE, SessionData } from "@/api/adk";
 import {
   default as AnimatedPressable,
 } from "@/components/button/animated-pressable";
 import PDFView from "@/components/chat/pdf-view";
 import PlusIcon from "@/icons/plus";
 import SendIcon from "@/icons/send";
+import queryClient from "@/queries/client";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
+  Text,
   TextInput,
   View
 } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import MessageList, { Message } from "./message-list";
-const md = `# Hello how can i help you?`;
+import MessageList from "./message-list";
+const md = `# Hello how can i help you?
+`;
 const _delay = 400;
 const _stiffness = 40;
 const _damping = 80;
 
-export default function ChatScreen() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: md,
-    },
-  ]);
+export default function ChatScreen({session_id}: {session_id: string}) {
+  const {isLoading, data, refetch} = useQuery({
+    queryKey: ['chat', session_id],
+    'queryFn': () => {
+      return getSessionData(session_id)
+    }
+  })
+  
+  if (!data) {
+    return <Text>...</Text>
+  }
 
   return (
     <Animated.View
@@ -34,13 +42,33 @@ export default function ChatScreen() {
       className="flex-1 bg-black"
     >
       <View className="flex-1 items-center justify-center">
-        {messages.length === 0 ? (
+        {data?.events.length === 0 ? (
           <WelcomeMessage key={"welcome"} />
         ) : (
-          <MessageList key={"messages"} messages={messages} />
+          <MessageList key={"messages"} messages={data.events} />
         )}
       </View>
-      <ChatInput />
+      <ChatInput onSend={async (message) => {
+        const messageItem = {
+          role: 'user',
+          parts: [{text: message}]
+        }
+        queryClient.setQueryData<SessionData>(['chat', session_id], (oldData) => {
+          if (!oldData) return oldData
+          return {
+            ...oldData,
+            events: [...oldData.events, {
+              author: 'user',
+              invocationId: 'self-user' + message,
+              content: {
+                parts: [{text: message}]
+              }
+            }]
+          }
+        })
+        await runSSE(session_id, messageItem)
+        await refetch()
+      }} />
     </Animated.View>
   );
 }
@@ -79,7 +107,7 @@ function WelcomeMessage() {
   );
 }
 
-function ChatInput() {
+function ChatInput({onSend}: {onSend: (message: string) => void}) {
   const [message, setMessage] = useState("");
   const { bottom } = useSafeAreaInsets();
   return (
@@ -110,7 +138,10 @@ function ChatInput() {
           <AnimatedPressable onPress={() => {}}>
             <PlusIcon />
           </AnimatedPressable>
-          <AnimatedPressable disabled={message === ""} onPress={() => {}}>
+          <AnimatedPressable disabled={message === ""} onPress={() => {
+            onSend(message);
+            setMessage('')
+          }}>
             <SendIcon />
           </AnimatedPressable>
         </View>

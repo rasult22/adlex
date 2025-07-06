@@ -1,4 +1,6 @@
+import { AppMessageEvent } from '@/api/adk';
 import ChatButton from '@/components/button/chat-button';
+import { useEffect, useRef } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 import Animated, { FadeIn, LinearTransition } from 'react-native-reanimated';
@@ -7,39 +9,48 @@ const _stiffness = 40
 const _damping = 80
 const _layout = LinearTransition.springify().damping(40)
 
-export default function MessageList({ messages }: { messages: Message[] }) {
+export default function MessageList({ messages }: { messages: AppMessageEvent[] }) {
+  const ref = useRef<FlatList<AppMessageEvent>>(null);
+
+  useEffect(() => {
+    if (ref.current)
+       setTimeout(() => {
+        if (ref.current) ref.current.scrollToEnd({animated: true})
+      }, 500)
+  }, [messages])
   return (
     <FlatList
-      inverted
+      ref={ref}
       data={messages}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => item.invocationId + item.id}
       contentContainerStyle={{
-        gap: 20,
         width: '100%',
         paddingHorizontal: 16,
-        paddingVertical: 24
+        paddingTop: 24
       }}
       style={{
         width: '100%'
       }}
       renderItem={({ item }) => {
         return <>
-          {item.role === 'assistant' && <MessageAssistant message={item} />}
-          {item.role === 'user' && <MessageUser message={item} />}
+          {item.author !== 'user' && <MessageAssistant message={item.content.parts[0].text || item.content.parts[0].functionCall?.name || ''} />}
+          {item.author === 'user' && <MessageUser message={item.content.parts[0].text || item.content.parts[0].functionCall?.name || ''} />}
         </>
       }}
     />
   )
 }
 
-function MessageUser({ message }: { message: Message }) {
+function MessageUser({ message }: { message: string }) {
   return (
-    <Animated.View layout={_layout} entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
-      <Text className='text-white text-[15px] font-inter-400 leading-[22px]'>{message.content}</Text>
+    <Animated.View className='self-end pb-3'>
+      <Animated.View layout={_layout} entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
+        <Text className='text-white text-[15px] font-inter-400 leading-[22px]'>{message}</Text>
+      </Animated.View>
     </Animated.View>
   )
 }
-function MessageAssistant({ message }: { message: Message }) {
+function MessageAssistant({ message }: { message: string }) {
   return (
     <Animated.View layout={_layout} className='self-start py-3 w-full'>
       <Markdown style={{
@@ -109,9 +120,9 @@ function MessageAssistant({ message }: { message: Message }) {
           borderColor: '#753EFF3D',
         }
       }}>
-        {message.content}
+        {message}
       </Markdown>
-      <View className="mt-2">
+      <View className="hidden mt-2">
         <Text className='text-[#FFFFFFA3] text-[14px] font-inter-700'>
           Действия:
         </Text>
@@ -127,7 +138,7 @@ function MessageAssistant({ message }: { message: Message }) {
           }} />
         </View>
       </View>
-      <View className="mt-2">
+      <View className="hidden mt-2">
         <Text className='text-[#FFFFFFA3] text-[14px] font-inter-700'>
           Информация:
         </Text>
