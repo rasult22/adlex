@@ -22,7 +22,7 @@ export default function MessageList({ messages }: { messages: AppMessageEvent[] 
     <FlatList
       ref={ref}
       data={messages}
-      keyExtractor={(item, index) => item.invocationId + item.id}
+      keyExtractor={(item, index) => item.invocationId + index}
       contentContainerStyle={{
         width: '100%',
         paddingHorizontal: 16,
@@ -44,7 +44,7 @@ export default function MessageList({ messages }: { messages: AppMessageEvent[] 
 function MessageUser({ message }: { message: string }) {
   return (
     <Animated.View className='self-end pb-3'>
-      <Animated.View layout={_layout} entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-full'>
+      <Animated.View layout={_layout} entering={FadeIn.duration(400).delay(_delay * 1).stiffness(_stiffness).damping(_damping)} className='bg-[#1F1F1F] self-end py-3 px-[14px] rounded-[20px]'>
         <Text className='text-white text-[15px] font-inter-400 leading-[22px]'>{message}</Text>
       </Animated.View>
     </Animated.View>
