@@ -104,6 +104,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function DrawerContent(props: DrawerContentComponentProps) {
   const { top, bottom } = useSafeAreaInsets();
+  const router = useRouter()
   return (
     <View
       className="flex-1"
@@ -137,7 +138,7 @@ function DrawerContent(props: DrawerContentComponentProps) {
           icon={<AddIcon />}
           text="New chat"
           onPress={() => {
-            props.navigation.navigate("/");
+            router.replace('/chat');
           }}
         />
         <HorizontalSeparator />
@@ -159,14 +160,14 @@ function DrawerContent(props: DrawerContentComponentProps) {
           icon={<BooksIcon />}
           text="Requests history"
           onPress={() => {
-            props.navigation.navigate("/");
+            // props.navigation.navigate("/");
           }}
         />
         <MenuItem
           icon={<FolderIcon />}
           text="Documents"
           onPress={() => {
-            props.navigation.navigate("/");
+            // props.navigation.navigate("/");
           }}
         />
         <HorizontalSeparator />
