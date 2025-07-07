@@ -16,10 +16,10 @@ export default function Chat() {
     if (!id) {
       fn()
     }
-  }, [])
+  }, [id])
 
   if (!id) {
-    return <View><Text className="text-white">Loading...</Text></View>
+    return <View className="flex-1 justify-center items-center"><Text className="text-white">Loading...</Text></View>
   }
 
   return (

@@ -59,7 +59,7 @@ export default function ChatScreen({session_id}: {session_id: string}) {
             ...oldData,
             events: [...oldData.events, {
               author: 'user',
-              invocationId: 'self-user' + message,
+              invocationId: 'self-user' + message + Math.random() * Math.random() * Math.random(),
               content: {
                 parts: [{text: message}]
               }

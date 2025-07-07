@@ -79,9 +79,12 @@ function HeaderLeft() {
 }
 
 function HeaderRight() {
+  const router = useRouter()
   return (
     <View className="pr-[16px]">
-      <AppAnimatedPressable onPress={() => {}}>
+      <AppAnimatedPressable onPress={() => {
+        router.replace('/chat');
+      }}>
         <AddIcon />
       </AppAnimatedPressable>
     </View>
@@ -95,6 +98,7 @@ import CloseIcon from "@/icons/close";
 import FolderIcon from "@/icons/folder";
 import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { getUniqueID } from "react-native-markdown-display";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
