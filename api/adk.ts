@@ -2,7 +2,8 @@ import queryClient from "@/queries/client";
 import { fetch } from "expo/fetch";
 const app_name = "adk";
 const user_id = "123";
-const base_url = 'http://192.168.123.33:8000'
+// const base_url = 'http://192.168.123.33:8000' // windows
+const base_url = 'http://192.168.123.37:8000'  // mac
 
 export type CreateSessionResponse = {
   appName: string,
@@ -99,14 +100,18 @@ export async function runSSE(
 
       try {
         const lines = lastData.split(/\r?\n/).filter((line) => line.startsWith('data:'));
-        lines.forEach(async (line) => {
+        lines.forEach((line) => {
           const data = line.replace(/^data:\s*/, '')
-          const json = JSON.parse(data);
-          if (json.partial) {
-            parts += json.content.parts[0].text
-            updateQueryData(json, session_id, parts)
-          } else {
-            updateQueryData(json, session_id, json.content.parts[0].text)
+          try {
+            const json = JSON.parse(data);
+            if (json.partial) {
+              parts += json.content.parts[0].text
+              updateQueryData(json, session_id, parts)
+            } else {
+              updateQueryData(json, session_id, json.content.parts[0].text)
+            }
+          } catch (e) {
+            console.log('error parsing data')
           }
         })
         lastData = '';
@@ -128,19 +133,20 @@ export async function runSSE(
 function updateQueryData (json: any, session_id: string, parts: string) {
     queryClient.setQueryData<SessionData>(['chat', session_id], (oldData) => {
       if (!oldData) return oldData
-      const found = oldData.events.find(e => e.invocationId === json.invocationId && e.author !== 'user')
+      const found = oldData.events.find(e => (e.invocationId === json.invocationId && e.author !== 'user' && !e.content.parts[0].functionCall))
       // if event is already exist, update text
       if (found) {
         return {
           ...oldData,
           events: oldData.events.map(e => {
-            if (e.author === 'user') return e;
+            if (e.author === 'user') {
+              return e;
+            } 
 
-            if (e.invocationId === json.invocationId) {
+            if (e.invocationId === json.invocationId && !e.content.parts[0].functionCall) {
               return {
                 ...json,
                 content: {
-
                   parts: [{
                     text: parts,
                   }]
@@ -151,6 +157,19 @@ function updateQueryData (json: any, session_id: string, parts: string) {
           })
         }
       } else {
+        if(json.content.parts[0].functionCall) {
+            return {
+            ...oldData,
+            events: [...oldData.events, {
+              ...json,
+              content: {
+                parts: [{
+                  functionCall: json.content.parts[0].functionCall
+                }]
+              }
+            }]
+          }
+        }
         return {
           ...oldData,
           events: [...oldData.events, {
