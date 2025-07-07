@@ -36,7 +36,7 @@ export type SessionData = {
 };
 
 export type AppMessageEvent = {
-  author: "user" | "root_agent";
+  author: "user" | "root_agent" | 'apply_agent' | string;
   actions?: {};
   invocationId: string;
   id?: string;
@@ -48,6 +48,11 @@ export type AppMessageContent = {
     text?: string;
     functionCall?: {
       args: {agent_name: string},
+      id: string,
+      name: string
+    };
+    functionResponse?: {
+      response: {result: string},
       id: string,
       name: string
     };
@@ -133,7 +138,7 @@ export async function runSSE(
 function updateQueryData (json: any, session_id: string, parts: string) {
     queryClient.setQueryData<SessionData>(['chat', session_id], (oldData) => {
       if (!oldData) return oldData
-      const found = oldData.events.find(e => (e.invocationId === json.invocationId && e.author !== 'user' && !e.content.parts[0].functionCall))
+      const found = oldData.events.find(e => (e.invocationId === json.invocationId && e.author !== 'user' && !e.content.parts[0].functionCall && !e.content.parts[0].functionResponse))
       // if event is already exist, update text
       if (found) {
         return {
@@ -143,7 +148,8 @@ function updateQueryData (json: any, session_id: string, parts: string) {
               return e;
             } 
 
-            if (e.invocationId === json.invocationId && !e.content.parts[0].functionCall) {
+            if (e.invocationId === json.invocationId && !e.content.parts[0].functionCall && !e.content.parts[0].functionResponse) {
+
               return {
                 ...json,
                 content: {
@@ -165,6 +171,19 @@ function updateQueryData (json: any, session_id: string, parts: string) {
               content: {
                 parts: [{
                   functionCall: json.content.parts[0].functionCall
+                }]
+              }
+            }]
+          }
+        }
+        if(json.content.parts[0].functionResponse) {
+            return {
+            ...oldData,
+            events: [...oldData.events, {
+              ...json,
+              content: {
+                parts: [{
+                  functionResponse: json.content.parts[0].functionResponse
                 }]
               }
             }]

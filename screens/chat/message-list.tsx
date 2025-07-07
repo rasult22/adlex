@@ -78,6 +78,7 @@ function MessageAssistant({ message }: { message: AppMessageEvent }) {
   let messageInner = "";
   let agentAction = false;
   let functionName = message.content.parts[0].functionCall?.name;
+  let functionResponse = message.content.parts[0].functionResponse?.name;
   let agentName = message.content.parts[0].functionCall?.args.agent_name;
   let text = message.content.parts[0].text;
   if (functionName) {
@@ -94,8 +95,18 @@ function MessageAssistant({ message }: { message: AppMessageEvent }) {
   } else if (text) {
     messageInner = text;
   }
+  if (functionResponse) {
+    agentAction = true
+    messageInner = 'Done!'
+  }
   return (
     <Animated.View layout={_layout} className="self-start py-3 w-full">
+      {!agentAction && message.author === 'root_agent' && 
+        <Text className="text-[#9165FF] text-[12px] font-inter-800">Basic Assistant</Text>
+      }
+      {!agentAction && message.author === 'apply_agent' && 
+        <Text className="text-[#9165FF] text-[12px] font-inter-800">Apply Agent</Text>
+      }
       {!agentAction && <FormattedMarkdown message={messageInner} />}
       {agentAction && (
         <Animated.View>
