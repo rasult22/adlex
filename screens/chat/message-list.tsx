@@ -1,5 +1,6 @@
 import { AppMessageEvent } from "@/api/adk";
 import ChatButton from "@/components/button/chat-button";
+import { useSystem } from "@/store/system";
 import { useEffect, useRef } from "react";
 import { FlatList, Text, View } from "react-native";
 import Markdown from "react-native-markdown-display";
@@ -158,6 +159,7 @@ export type Message = {
 };
 
 function FormattedMarkdown({ message }: { message: string }) {
+  const setToast = useSystem(state => state.setToast)
   return (
     <Markdown
       rules={{
@@ -165,10 +167,15 @@ function FormattedMarkdown({ message }: { message: string }) {
           const link = node.attributes.href;
           const text = node.children[0].content
         return  <ChatButton title={text} onPress={() => {
-          if (link === 'pay') {
+          if (link === 'pay-now') {
+            console.log(link)
+            setToast({
+              open: true,
+              message: 'Payment completed ✅',
+            })
             // payment logic
           }
-          if (link === 'kyc') {
+          if (link === 'KYC') {
             // kyc logic
           }
         }} />
