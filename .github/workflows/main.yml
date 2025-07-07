@@ -43,5 +43,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Specify your AWS region
       
-      # - name: Invalidate CloudFront Cache
-        # run: aws cloudfront create-invalidation --distribution-id E22DOXNEN38SSW --paths "/*"
+      - name: Invalidate CloudFront Cache
+        run: aws cloudfront create-invalidation --distribution-id E3NJDIEIQHMJJU --paths "/*"
