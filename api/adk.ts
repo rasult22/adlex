@@ -2,7 +2,7 @@ import queryClient from "@/queries/client";
 import { fetch } from "expo/fetch";
 const app_name = "adk";
 const user_id = "user";
-// const base_url = 'http://192.168.123.33:8000' // windows
+// const base_url = 'http://192.168.123.33:8000/213' // windows
 const base_url = 'https://agent.adlex.azamat.ai'  // mac
 
 export type CreateSessionResponse = {
