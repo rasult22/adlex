@@ -44,4 +44,4 @@ jobs:
           aws-region: us-east-1  # Specify your AWS region
       
       - name: Invalidate CloudFront Cache
-        # run: aws cloudfront create-invalidation --distribution-id E22DOXNEN38SSW --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id E3NJDIEIQHMJJU --paths "/*"
