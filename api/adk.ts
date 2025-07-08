@@ -44,6 +44,7 @@ export type AppMessageEvent = {
 }
 
 export type AppMessageContent = {
+  role?: string,
   parts: {
     text?: string;
     functionCall?: {

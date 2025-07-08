@@ -45,7 +45,7 @@ export default function ChatScreen({session_id}: {session_id: string}) {
         {data?.events.length === 0 ? (
           <WelcomeMessage key={"welcome"} />
         ) : (
-          <MessageList key={"messages"} messages={data.events} />
+          <MessageList session_id={session_id} key={"messages"} messages={data.events} />
         )}
       </View>
       <ChatInput onSend={async (message) => {

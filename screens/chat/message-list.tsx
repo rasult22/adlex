@@ -1,6 +1,6 @@
 import { AppMessageEvent } from "@/api/adk";
 import ChatButton from "@/components/button/chat-button";
-import { useSystem } from "@/store/system";
+import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { FlatList, Text, View } from "react-native";
 import Markdown from "react-native-markdown-display";
@@ -12,8 +12,10 @@ const _layout = LinearTransition.springify().damping(40);
 
 export default function MessageList({
   messages,
+  session_id,
 }: {
   messages: AppMessageEvent[];
+  session_id: string;
 }) {
   const ref = useRef<FlatList<AppMessageEvent>>(null);
 
@@ -39,9 +41,11 @@ export default function MessageList({
       renderItem={({ item }) => {
         return (
           <>
-            {item.author !== "user" && <MessageAssistant message={item} />}
+            {item.author !== "user" && (
+              <MessageAssistant session_id={session_id} message={item} />
+            )}
 
-            {item.author === "user" && (
+            {item.author === "user" && item.content.role !== "maybe_user" && (
               <MessageUser
                 message={
                   item.content.parts[0].text ||
@@ -75,7 +79,13 @@ function MessageUser({ message }: { message: string }) {
     </Animated.View>
   );
 }
-function MessageAssistant({ message }: { message: AppMessageEvent }) {
+function MessageAssistant({
+  message,
+  session_id,
+}: {
+  message: AppMessageEvent;
+  session_id: string;
+}) {
   let messageInner = "";
   let agentAction = false;
   let functionName = message.content.parts[0].functionCall?.name;
@@ -85,7 +95,11 @@ function MessageAssistant({ message }: { message: AppMessageEvent }) {
   if (functionName) {
     agentAction = true;
     let agentNameFormatted =
-      agentName === "apply_agent" ? "Apply Process Agent" : agentName === 'root_agent' ? 'Basic Assistant' : agentName;
+      agentName === "apply_agent"
+        ? "Apply Process Agent"
+        : agentName === "root_agent"
+          ? "Basic Assistant"
+          : agentName;
     if (functionName === "transfer_to_agent") {
       messageInner = "Transfering to an agent:" + " -> " + agentNameFormatted;
     } else if (functionName === "rag_search_tool") {
@@ -97,18 +111,24 @@ function MessageAssistant({ message }: { message: AppMessageEvent }) {
     messageInner = text;
   }
   if (functionResponse) {
-    agentAction = true
-    messageInner = 'Done!'
+    agentAction = true;
+    messageInner = "Done!";
   }
   return (
     <Animated.View layout={_layout} className="self-start py-3 w-full">
-      {!agentAction && message.author === 'root_agent' && 
-        <Text className="text-[#9165FF] text-[12px] font-inter-800">Basic Assistant</Text>
-      }
-      {!agentAction && message.author === 'apply_agent' && 
-        <Text className="text-[#9165FF] text-[12px] font-inter-800">Apply Agent</Text>
-      }
-      {!agentAction && <FormattedMarkdown message={messageInner} />}
+      {!agentAction && message.author === "root_agent" && (
+        <Text className="text-[#9165FF] text-[12px] font-inter-800">
+          Basic Assistant
+        </Text>
+      )}
+      {!agentAction && message.author === "apply_agent" && (
+        <Text className="text-[#9165FF] text-[12px] font-inter-800">
+          Apply Agent
+        </Text>
+      )}
+      {!agentAction && (
+        <FormattedMarkdown session_id={session_id} message={messageInner} />
+      )}
       {agentAction && (
         <Animated.View>
           <Text className="underline text-white font-inter-400-i opacity-75">
@@ -158,28 +178,35 @@ export type Message = {
   role: "user" | "assistant" | string;
 };
 
-function FormattedMarkdown({ message }: { message: string }) {
-  const setToast = useSystem(state => state.setToast)
+function FormattedMarkdown({
+  message,
+  session_id,
+}: {
+  message: string;
+  session_id: string;
+}) {
+  const router = useRouter();
   return (
     <Markdown
       rules={{
         link: (node) => {
           const link = node.attributes.href;
-          const text = node.children[0].content
-        return  <ChatButton title={text} onPress={() => {
-          if (link === 'pay-now') {
-            console.log(link)
-            setToast({
-              open: true,
-              message: 'Payment completed ✅',
-            })
-            // payment logic
-          }
-          if (link === 'KYC') {
-            // kyc logic
-          }
-        }} />
-      },
+          const text = node.children[0].content;
+          return (
+            <ChatButton
+              title={text}
+              onPress={() => {
+                if (link === "pay-now") {
+                  router.push(`/payment?session_id=${session_id}` as any);
+                  // payment logic
+                }
+                if (link === "KYC") {
+                  // kyc logic
+                }
+              }}
+            />
+          );
+        },
       }}
       style={{
         body: {
@@ -223,11 +250,11 @@ function FormattedMarkdown({ message }: { message: string }) {
         },
         link: {
           color: "white",
-          textDecorationLine: 'none',
+          textDecorationLine: "none",
           paddingHorizontal: 12,
           paddingVertical: 8,
           borderRadius: 12,
-          backgroundColor: '#9165FF',
+          backgroundColor: "#9165FF",
         },
         image: {
           position: "static",
