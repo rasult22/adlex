@@ -2,8 +2,7 @@ import queryClient from "@/queries/client";
 import { fetch } from "expo/fetch";
 const app_name = "adk";
 const user_id = "user";
-// const base_url = 'http://192.168.123.33:8000/213' // windows
-const base_url = 'https://agent.adlex.azamat.ai'  // mac
+const base_url = 'https://agent.adlex.azamat.ai'
 
 export type CreateSessionResponse = {
   appName: string,
@@ -39,7 +38,8 @@ export type AppMessageEvent = {
   author: "user" | "root_agent" | 'apply_agent' | string;
   actions?: {};
   invocationId: string;
-  id?: string;
+  id: string;
+  timestamp: number,
   content: AppMessageContent
 }
 
@@ -150,7 +150,6 @@ function updateQueryData (json: any, session_id: string, parts: string) {
             } 
 
             if (e.invocationId === json.invocationId && !e.content.parts[0].functionCall && !e.content.parts[0].functionResponse) {
-
               return {
                 ...json,
                 content: {

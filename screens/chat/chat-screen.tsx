@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { v4 as uuidv4 } from 'uuid';
 import MessageList from "./message-list";
 const md = `# Hello how can i help you?
 `;
@@ -59,6 +60,8 @@ export default function ChatScreen({session_id}: {session_id: string}) {
             ...oldData,
             events: [...oldData.events, {
               author: 'user',
+              timestamp: Date.now(),
+              id: uuidv4(),
               invocationId: 'self-user' + message + Math.random() * Math.random() * Math.random(),
               content: {
                 parts: [{text: message}]

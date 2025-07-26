@@ -38,6 +38,9 @@ export default function RootLayout() {
           <Stack.Screen name="payment/index" options={{
             headerShown: false,
           }} />
+          <Stack.Screen name="kyc/index" options={{
+            headerShown: false,
+          }} />
         </Stack>
     </QueryClientProvider>
   );

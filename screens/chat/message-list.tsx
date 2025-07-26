@@ -29,7 +29,9 @@ export default function MessageList({
     <FlatList
       ref={ref}
       data={messages}
-      keyExtractor={(item, index) => item.invocationId + index}
+      keyExtractor={(item, index) => {
+        return item.id + item.invocationId + item.timestamp
+      }}
       contentContainerStyle={{
         width: "100%",
         paddingHorizontal: 16,
@@ -200,8 +202,8 @@ function FormattedMarkdown({
                   router.push(`/payment?session_id=${session_id}` as any);
                   // payment logic
                 }
-                if (link === "KYC") {
-                  // kyc logic
+                if (link === "kyc-link") {
+                  router.push(`/kyc?session_id=${session_id}` as any);
                 }
               }}
             />
