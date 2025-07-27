@@ -53,7 +53,16 @@ export type AppMessageContent = {
       name: string
     };
     functionResponse?: {
-      response: {result: string},
+      response: {
+        result: string,
+        filename: string,
+        files: {
+          filename: string,
+          version: string | number
+        }[]
+        status: string,
+        version: string | number
+      },
       id: string,
       name: string
     };
@@ -66,6 +75,19 @@ export async function getSessionData(session_id: string) {
       method: "GET",
     }
   ).then((x) => x.json() as Promise<SessionData>);
+}
+
+export async function getArtifactVersion(session_id: string, filename: string, file_version: string) {
+  return await fetch(`${base_url}/apps/${app_name}/users/${user_id}/sessions/${session_id}/artifacts/${filename}/versions/${file_version}`,{
+    method: 'GET'
+  }).then(x => x.json() as Promise<{
+    inlineData: {
+      data: string,
+      mimeType: string
+    }
+  }>).catch(e => {
+    console.log(e)
+  })
 }
 
 export async function runSSE(

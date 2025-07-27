@@ -1,8 +1,9 @@
 import { AppMessageEvent } from "@/api/adk";
 import ChatButton from "@/components/button/chat-button";
+import PDFView from "@/components/chat/pdf-view";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text } from "react-native";
 import Markdown from "react-native-markdown-display";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 const _delay = 400;
@@ -90,8 +91,10 @@ function MessageAssistant({
 }) {
   let messageInner = "";
   let agentAction = false;
+  let fileDownload = false
   let functionName = message.content.parts[0].functionCall?.name;
   let functionResponse = message.content.parts[0].functionResponse?.name;
+  let functionResponseData = message.content.parts[0].functionResponse?.response;
   let agentName = message.content.parts[0].functionCall?.args.agent_name;
   let text = message.content.parts[0].text;
   if (functionName) {
@@ -112,23 +115,34 @@ function MessageAssistant({
   } else if (text) {
     messageInner = text;
   }
-  if (functionResponse) {
+  if (functionResponse && functionResponse === 'provide_all_licenses' && functionResponseData) {
+    fileDownload = true
+  }
+  else if (functionResponse) {
     agentAction = true;
     messageInner = "Done!";
   }
   return (
     <Animated.View layout={_layout} className="self-start py-3 w-full">
-      {!agentAction && message.author === "root_agent" && (
+      {
+        fileDownload && functionResponse && functionResponseData && functionResponseData.files.length > 0 && 
+        <Animated.View className="gap-4">
+          {functionResponseData.files.map(file => {
+            return <PDFView session_id={session_id} type="download" filename={file.filename} version={file.version}/>
+          })}
+        </Animated.View>
+      }
+      {!agentAction && !fileDownload && message.author === "root_agent" && (
         <Text className="text-[#9165FF] text-[12px] font-inter-800">
           Basic Assistant
         </Text>
       )}
-      {!agentAction && message.author === "apply_agent" && (
+      {!agentAction && !fileDownload && message.author === "apply_agent" && (
         <Text className="text-[#9165FF] text-[12px] font-inter-800">
           Apply Agent
         </Text>
       )}
-      {!agentAction && (
+      {!agentAction && !fileDownload && (
         <FormattedMarkdown session_id={session_id} message={messageInner} />
       )}
       {agentAction && (
@@ -138,38 +152,6 @@ function MessageAssistant({
           </Text>
         </Animated.View>
       )}
-
-      <View className="hidden mt-2">
-        <Text className="text-[#FFFFFFA3] text-[14px] font-inter-700">
-          Действия:
-        </Text>
-        <View className="flex-row flex-wrap gap-2 mt-2">
-          <ChatButton title="Apply" onPress={() => {}} />
-          <ChatButton title="Go to the application form" onPress={() => {}} />
-          <ChatButton
-            title="Choose the appropriate Free Zone"
-            onPress={() => {}}
-          />
-        </View>
-      </View>
-      <View className="hidden mt-2">
-        <Text className="text-[#FFFFFFA3] text-[14px] font-inter-700">
-          Информация:
-        </Text>
-        <View className="flex-row flex-wrap gap-2 mt-2">
-          <ChatButton
-            title="How do I choose my business activity?"
-            onPress={() => {}}
-          />
-          <ChatButton
-            title="What do I need from me to open a company?"
-            onPress={() => {}}
-          />
-          <ChatButton title="Taxation of my cashflow" onPress={() => {}} />
-          <ChatButton title="Why IFZA?" onPress={() => {}} />
-          <ChatButton title="Налоговый режим" onPress={() => {}} />
-        </View>
-      </View>
     </Animated.View>
   );
 }
