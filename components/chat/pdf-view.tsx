@@ -49,7 +49,7 @@ export default function PDFView({
         const res = await getArtifactVersion(session_id, filename, version as string);
         if (res && res.inlineData) {
           const base64Data = formatBase64Data(res.inlineData.data, res.inlineData.mimeType);
-          openBase64InNewTab(base64Data, res.inlineData.mimeType);
+          openBase64InNewTab(base64Data, res.inlineData.mimeType, filename);
         }
       } finally {
         // Stop animations
@@ -136,9 +136,69 @@ export default function PDFView({
   );
 }
 
-export function openBase64InNewTab(dataUrl: string, mimeType: string) {
+// Add this helper function to detect mobile devices
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+         (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform));
+}
+
+// Add this function for mobile-friendly download
+function downloadBase64File(dataUrl: string, mimeType: string, filename: string) {
   try {
     if (!dataUrl) {
+      return;
+    }
+
+    let base64DataString = dataUrl;
+
+    if (dataUrl.startsWith('data:') && dataUrl.includes(';base64,')) {
+      base64DataString = base64DataString.substring(
+          base64DataString.indexOf(';base64,') + ';base64,'.length);
+    }
+
+    if (!mimeType || !base64DataString) {
+      return;
+    }
+
+    const byteCharacters = atob(base64DataString);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+
+    const blob = new Blob([byteArray], {type: mimeType});
+
+    // Create download link
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename || 'document.pdf';
+    
+    // Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up the blob URL
+    setTimeout(() => URL.revokeObjectURL(link.href), 100);
+    
+  } catch (e) {
+    console.log(e);
+    alert('Could not download the file. It might be invalid or too large. Check the browser console for errors.');
+  }
+}
+
+// Update the openBase64InNewTab function to handle mobile devices
+export function openBase64InNewTab(dataUrl: string, mimeType: string, filename?: string) {
+  try {
+    if (!dataUrl) {
+      return;
+    }
+
+    // Check if it's a mobile device
+    if (isMobileDevice()) {
+      // Use download functionality for mobile devices
+      downloadBase64File(dataUrl, mimeType, filename || 'document.pdf');
       return;
     }
 
@@ -168,8 +228,8 @@ export function openBase64InNewTab(dataUrl: string, mimeType: string) {
     if (newWindow) {
       newWindow.focus();
     } else {
-      alert(
-          'Pop-up blocked! Please allow pop-ups for this site to open the data in a new tab.');
+      // Fallback to download if popup is blocked
+      downloadBase64File(dataUrl, mimeType, filename || 'document.pdf');
     }
   } catch (e) {
     console.log(e)
